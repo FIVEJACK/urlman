@@ -7,9 +7,10 @@ import { proxyHosts } from '@/config/proxy-hosts';
 export const urlManager = async (parsedUrl: UrlWithParsedQuery) => {
   const toReturn = new ReturnObject;
   toReturn.setCSP('default-src *;');
-  const redirectUrl: any = parsedUrl?.query?.u || '';
+  const redirectUrl = parsedUrl?.query?.u || '';
   const isValidUrl = (redirectUrl.indexOf('http://') === 0 || redirectUrl.indexOf('https://') === 0);
-  const hostname = parseUrl(redirectUrl).hostname ?? '';
+  const url = Array.isArray(redirectUrl) ? redirectUrl[0] : redirectUrl;
+  const hostname = parseUrl(url).hostname ?? '';
 
   if (isValidUrl && proxyHosts.hostnames.indexOf(hostname) >= 0) {
     try {
