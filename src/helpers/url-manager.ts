@@ -1,6 +1,7 @@
 import fetch from 'node-fetch';
-import { UrlWithParsedQuery } from 'url';
+import { UrlWithParsedQuery, parse as parseUrl } from 'url';
 import ReturnObject from 'Helpers/return-object';
+import { proxyHosts } from '@/config/proxy-hosts';
 
 // Fetch url content and return the content
 export const urlManager = async (parsedUrl: UrlWithParsedQuery) => {
@@ -8,8 +9,10 @@ export const urlManager = async (parsedUrl: UrlWithParsedQuery) => {
   toReturn.setCSP('default-src *;');
   const redirectUrl = parsedUrl?.query?.u || '';
   const isValidUrl = (redirectUrl.indexOf('http://') === 0 || redirectUrl.indexOf('https://') === 0);
+  const url = Array.isArray(redirectUrl) ? redirectUrl[0] : redirectUrl;
+  const hostname = parseUrl(url).hostname ?? '';
 
-  if (isValidUrl) {
+  if (isValidUrl && proxyHosts.hostnames.indexOf(hostname) >= 0) {
     try {
       const urlResponse = await fetch(redirectUrl as string);
       const content = await urlResponse.text();
