@@ -1,5 +1,4 @@
 require('@/bootstrap');
-
 import { appConfig } from 'Config/app';
 // Init App Server
 let appServer: any;

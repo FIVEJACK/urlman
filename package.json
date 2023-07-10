@@ -16,7 +16,7 @@
     "bundle": "cd ./dist && bestzip build.zip *  && copyfiles build.zip ./../"
   },
   "dependencies": {
-    "dotenv": "^16.3.1",
+    "dotenv": "^16.0.1",
     "node-fetch": "2.6.7"
   },
   "devDependencies": {
